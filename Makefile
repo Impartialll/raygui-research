@@ -1,7 +1,7 @@
 PROJECT_NAME:=raygui_research
 SRC:=main.c start_menu.c
 CC:=clang
-CFLAGS:=-Wall -Werror -lm
+CFLAGS:=-Wall -lm
 
 $(PROJECT_NAME):
 	$(CC) $(CFLAGS) $(shell pkg-config --libs --cflags raylib) $(SRC) -o $(PROJECT_NAME)
