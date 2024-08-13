@@ -16,9 +16,14 @@ rm -f 4.0.zip
 cp raygui-4.0/src/raygui.h raygui-4.0/src/raygui.c
 
 # Compile raygui
+if [[ "$OSTYPE" == "darwin"* ]]; then
 gcc -o raygui-4.0/raygui.so raygui-4.0/src/raygui.c \
   -shared -fpic -DRAYGUI_IMPLEMENTATION -framework \
   OpenGL -lm -lpthread -ldl $(pkg-config --libs --cflags raylib)
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+gcc -o raygui.so src/raygui.c -shared -fpic -DRAYGUI_IMPLEMENTATION \
+  -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+fi
 
 # Copy header
 cp raygui-4.0/src/raygui.h .
