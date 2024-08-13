@@ -10,3 +10,4 @@ TODO:
 - Refactor PopupWelcome members into struct
 - Refactor PopIPSettingsmembers into struct
 - Clean commented code
+- Fix configure.sh script for WSL
