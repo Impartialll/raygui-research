@@ -1,5 +1,5 @@
 PROJECT_NAME:=raygui_research
-SRC:=main.c start_menu.c
+SRC:=main.c start_menu.c game.c
 CC:=clang
 CFLAGS:=-Wall -lm
 

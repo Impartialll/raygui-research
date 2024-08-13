@@ -4,63 +4,63 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define SCREEN_W 640
+#define SCREEN_H 480
+
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+
+const int rectWidth = 300;
+const int rectHeight = 200;
+Rectangle pop = {
+    .x = (SCREEN_W / 2) - (rectWidth / 2),
+    .y = (SCREEN_H / 2) - (rectHeight / 2),
+    .width = rectWidth,
+    .height = rectHeight};
+
+IpSettings sets = {{0, 0, 0, 0}, 5600};
+char ip_str[16];
+char port_str[6];
+
+static bool ip_active = false;
+static bool port_active = false;
 
 bool show_start_popup = true;
 bool show_ipset_popup = false;
 bool on_window_quit = false;
+bool singleplayer = false;
 
-int start_menu()
+int start_menu(void)
 {
-  const int rectWidth = 300;
-  const int rectHeight = 200;
-  Rectangle pop = {
-      .x = (SCREEN_W / 2) - (rectWidth / 2),
-      .y = (SCREEN_H / 2) - (rectHeight / 2),
-      .width = rectWidth,
-      .height = rectHeight};
+  BeginDrawing();
+  ClearBackground(LIGHTGRAY);
 
-  // Default
-  IpSettings sets = {{0, 0, 0, 0}, 5600};
-  char ip_str[16];
-  char port_str[6];
-  snprintf(ip_str, sizeof(ip_str), "%d.%d.%d.%d", sets.ip[0], sets.ip[1], sets.ip[2], sets.ip[3]);
-  snprintf(port_str, sizeof(port_str), "%d", sets.port);
-
-  static bool ip_active = false;
-  static bool port_active = false;
-
-  while (!WindowShouldClose())
+  if (on_window_quit || WindowShouldClose())
   {
-    BeginDrawing();
-    ClearBackground(LIGHTGRAY);
-
-    if (on_window_quit)
-    {
-      CloseWindow();
-      return 0;
-    }
-
-    if (show_start_popup)
-    {
-      PopWelcome(pop);
-    }
-
-    if (show_ipset_popup)
-    {
-      PopIPSettings(pop, &sets, ip_str, port_str, ip_active, port_active);
-    }
-
-    EndDrawing();
+    return 1;
   }
+
+  if (show_start_popup)
+  {
+    PopWelcome(pop);
+  }
+
+  if (show_ipset_popup)
+  {
+    PopIPSettings(pop, &sets, ip_str, port_str, ip_active, port_active);
+  }
+
+  EndDrawing();
   return 0;
 }
 
 void PopWelcome(Rectangle pop)
 {
-  GuiDrawRectangle(pop, 2, BLACK, RAYWHITE);
-
+  // GuiDrawRectangle(pop, 2, BLACK, RAYWHITE);
+  if (GuiWindowBox(pop, "Pong start"))
+  {
+    on_window_quit = true;
+  }
   const char *up_title = "Hello and Welcome to the";
   int up_title_size = 18;
   const char *title = "Pong";
@@ -71,33 +71,37 @@ void PopWelcome(Rectangle pop)
 
   Rectangle quit_button = {
       .x = (SCREEN_W / 2) - ((pop.width / 4) / 2),
-      .y = SCREEN_H - pop.height + 10,
+      .y = SCREEN_H - pop.height + 15,
       .width = (pop.width / 4),
       .height = (pop.height / 7)};
 
   Rectangle central_buttons = {
       .x = (SCREEN_W / 2) - 80,
-      .y = SCREEN_H / 2,
+      .y = SCREEN_H / 2 + 17,
       .width = 80,
       .height = (pop.height / 7)};
 
   DrawText(up_title, pop.x + (pop.width / 2) - (up_title_width / 2),
-           pop.y + 15, up_title_size, BLACK);
+           pop.y + 35, up_title_size, BLACK);
   DrawText(title, pop.x + (pop.width / 2) - (title_width / 2),
-           pop.y + 40, title_size, VIOLET);
+           pop.y + 60, title_size, VIOLET);
 
   const char *text_mode = "Choose the game mode";
-  GuiDrawText(text_mode, (Rectangle){SCREEN_W / 2 - 60, SCREEN_H / 2 - 25, 120, (pop.height / 7)}, 1, BLACK);
+  GuiDrawText(text_mode, (Rectangle){SCREEN_W / 2 - 60, SCREEN_H / 2 - 7, 120, (pop.height / 7)}, 1, BLACK);
 
   if (GuiButton(quit_button, "Quit"))
   {
     on_window_quit = true;
   }
+
   if (GuiButton(central_buttons, "Singleplayer"))
   {
-    on_window_quit = true;
+    show_start_popup = false;
+    show_ipset_popup = false;
+    singleplayer = true;
   }
-  if (GuiButton((Rectangle){SCREEN_W / 2, SCREEN_H / 2, 80, (pop.height / 7)}, "Multiplayer"))
+
+  if (GuiButton((Rectangle){SCREEN_W / 2, central_buttons.y, central_buttons.width, central_buttons.height}, "Multiplayer"))
   {
     show_start_popup = false;
     show_ipset_popup = true;
@@ -106,7 +110,12 @@ void PopWelcome(Rectangle pop)
 
 void PopIPSettings(Rectangle pop, IpSettings *sets, char ip_str[], char port_str[], bool ip_active, bool port_active)
 {
-  GuiDrawRectangle(pop, 2, BLACK, RAYWHITE);
+  printf("scope pop welcome\n");
+  // GuiDrawRectangle(pop, 2, BLACK, RAYWHITE);
+  if (GuiWindowBox(pop, "IP Settings"))
+  {
+    on_window_quit = true;
+  }
 
   const char *up_title = "IP Settings";
   int up_title_size = 24;
@@ -122,34 +131,34 @@ void PopIPSettings(Rectangle pop, IpSettings *sets, char ip_str[], char port_str
 
   Rectangle cancel_button = {
       .x = (SCREEN_W / 2) - (pop.width / 3),
-      .y = SCREEN_H - pop.height + 10,
+      .y = SCREEN_H - pop.height + 15,
       .width = (pop.width / 4),
       .height = (pop.height / 7)};
 
   Rectangle apply_button = {
       .x = (SCREEN_W / 2) + (pop.width / 3) - (pop.width / 4),
-      .y = SCREEN_H - pop.height + 10,
+      .y = SCREEN_H - pop.height + 15,
       .width = (pop.width / 4),
       .height = (pop.height / 7)};
 
   DrawText(up_title, pop.x + (pop.width / 2) - (up_title_width / 2),
-           pop.y + 15, up_title_size, BLACK);
+           pop.y + 35, up_title_size, BLACK);
   DrawText(title, pop.x + (pop.width / 2) - (title_width / 2),
-           pop.y + 45, title_size, BLACK);
+           pop.y + 63, title_size, BLACK);
 
   DrawText(ip_title, (SCREEN_W / 2) - 90,
-           (SCREEN_H / 2) - 20, ip_port_size, BLACK);
+           (SCREEN_H / 2) - 7, ip_port_size, BLACK);
   DrawText(port_title, (SCREEN_W / 2) + 75 - port_width,
-           (SCREEN_H / 2) - 20, ip_port_size, BLACK);
+           (SCREEN_H / 2) - 7, ip_port_size, BLACK);
 
   Rectangle ip_input_box = {
       .x = (SCREEN_W / 2) - 105,
-      .y = (SCREEN_H / 2),
+      .y = (SCREEN_H / 2) + 10,
       .height = 30,
       .width = 90};
   // Rectangle port_input_box = {
   //     .x = (SCREEN_W / 2) + 20,
-  //     .y = (SCREEN_H / 2),
+  //     .y = (SCREEN_H / 2) + 10,
   //     .height = 30,
   //     .width = 90};
 
