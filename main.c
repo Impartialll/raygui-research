@@ -19,8 +19,9 @@ WindowRect rect = {
 GameState state = {.countdown = 3, .countdownTimer = 0.0f, .gamePaused = true};
 
 // Ball properties
-Ball ball = {
-    .position = {SCREEN_H / 2.0f, SCREEN_H / 2.0f}, .speed = {350}, .radius = 15.0f};
+Ball ball = {.position = {SCREEN_H / 2.0f, SCREEN_H / 2.0f},
+             .speed = {350},
+             .radius = 15.0f};
 
 // Paddles properties
 Paddle pd = {.paddleWidth = 20,
@@ -38,26 +39,48 @@ Player player2 = {
     .position_y = (SCREEN_H - 100) / 2,
 };
 
-int main()
-{
-    InitWindow(SCREEN_W, SCREEN_H, "Pong Online");
-    SetMouseCursor(MOUSE_CURSOR_ARROW);
-    SetTargetFPS(60);
+int main() {
+  InitWindow(SCREEN_W, SCREEN_H, "Pong Online");
+  SetMouseCursor(MOUSE_CURSOR_ARROW);
+  SetTargetFPS(60);
 
-    while (show_start_popup || show_ipset_popup)
-    {
-        // On window close
-        if (start_menu() == 1)
-        {
-            CloseWindow();
-            return 0;
+  while (!WindowShouldClose()) {
+    BeginDrawing();
+    ClearBackground(LIGHTGRAY);
+
+    if (singleplayer) {
+      int mode = 0;
+      do {
+        switch (mode) {
+        case WINDOW_QUIT:
+          CloseWindow();
+          return 0;
+          break;
+
+        default:
+          break;
         }
+        mode =
+            main_loop(&player1, &player2, &rect, &pd, &state, &ball, &window);
+      } while (mode != LOOP_CLOSED);
     }
 
-    if (singleplayer)
-    {
-        return main_loop(&player1, &player2, &rect, &pd, &state, &ball, &window);
-    }
+    if (show_start_popup) {
+      int mode = 0;
+      do {
+        switch (mode) {
+        case WINDOW_QUIT:
+          CloseWindow();
+          return 0;
+          break;
 
-    return 0;
+        default:
+          break;
+        }
+        mode = start_menu();
+      } while (mode != LOOP_CLOSED);
+    }
+  }
+  CloseWindow();
+  return 0;
 }
