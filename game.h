@@ -5,6 +5,12 @@
 #define SCREEN_W 640
 #define SCREEN_H 480
 
+enum State {
+  WORKING,
+  WINDOW_QUIT,
+  LOOP_CLOSED,
+};
+
 // Types
 typedef struct Ball
 {
