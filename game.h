@@ -69,5 +69,5 @@ extern bool singleplayer;
 Vector2 GetRandomBallSpeed(int minSpeed, int maxSpeed);
 void ResetBall(Ball *ball, int screenWidth, int screenHeight);
 
-int main_loop(Player player1, Player player2, WindowRect rect, Paddle pd,
-              GameState state, Ball ball, WindowSettings window);
+int main_loop(Player *player1, Player *player2, WindowRect *rect, Paddle *pd,
+              GameState *state, Ball *ball, WindowSettings *window);

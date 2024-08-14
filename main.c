@@ -56,7 +56,7 @@ int main()
 
     if (singleplayer)
     {
-        return main_loop(player1, player2, rect, pd, state, ball, window);
+        return main_loop(&player1, &player2, &rect, &pd, &state, &ball, &window);
     }
 
     return 0;
