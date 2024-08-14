@@ -1,11 +1,6 @@
 #include "start_menu.h"
-#include "raylib.h"
-#include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-
-#define SCREEN_W 640
-#define SCREEN_H 480
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -56,7 +51,6 @@ int start_menu(void)
 
 void PopWelcome(Rectangle pop)
 {
-  // GuiDrawRectangle(pop, 2, BLACK, RAYWHITE);
   if (GuiWindowBox(pop, "Pong start"))
   {
     on_window_quit = true;
@@ -110,8 +104,6 @@ void PopWelcome(Rectangle pop)
 
 void PopIPSettings(Rectangle pop, IpSettings *sets, char ip_str[], char port_str[], bool ip_active, bool port_active)
 {
-  printf("scope pop welcome\n");
-  // GuiDrawRectangle(pop, 2, BLACK, RAYWHITE);
   if (GuiWindowBox(pop, "IP Settings"))
   {
     on_window_quit = true;
@@ -156,27 +148,12 @@ void PopIPSettings(Rectangle pop, IpSettings *sets, char ip_str[], char port_str
       .y = (SCREEN_H / 2) + 10,
       .height = 30,
       .width = 90};
-  // Rectangle port_input_box = {
-  //     .x = (SCREEN_W / 2) + 20,
-  //     .y = (SCREEN_H / 2) + 10,
-  //     .height = 30,
-  //     .width = 90};
 
   if (GuiTextBox(ip_input_box, ip_str, 16, true))
   {
-    // ip_active = true;
-    // port_active = false;
     sscanf(ip_str, "%hhu.%hhu.%hhu.%hhu", &sets->ip[0], &sets->ip[1], &sets->ip[2], &sets->ip[3]);
     printf("Updated IP: %d.%d.%d.%d\n", sets->ip[0], sets->ip[1], sets->ip[2], sets->ip[3]);
   }
-  // if (GuiTextBox(port_input_box, port_str, 5, true))
-  // {
-  //   ip_active = false;
-  //   port_active = true;
-  //   sets->port = (short)atoi(port_str);
-  //   printf("Updated port: %d\n", sets->port);
-  // }
-
   if (GuiButton(cancel_button, "Cancel"))
   {
     show_ipset_popup = false;
