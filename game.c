@@ -1,7 +1,5 @@
 #include "game.h"
-#include "raylib.h"
 #include <stdio.h>
-#include "start_menu.h"
 
 Vector2 GetRandomBallSpeed(int minSpeed, int maxSpeed)
 {
@@ -146,13 +144,9 @@ int main_loop(Player player1, Player player2, WindowRect rect, Paddle pd,
     if (mouse_on_the_frame)
     {
       DrawRectangle(100, player1.position_y, 20, 100, Fade(GREEN, 0.9f));
-      // DrawRectangle(screenWidth - 120, (screenHeight - 100) / 2, 20, 100,
-      // Fade(RED, 0.9f));
 
       DrawRectangle(pd.rightPaddleX, player2.position_y, pd.paddleWidth,
                     pd.paddleHeight, Fade(RED, 0.9f));
-      // DrawRectangle(leftPaddleX, (screenHeight - 100) / 2, paddleWidth,
-      // paddleHeight, Fade(GREEN, 0.9f));
     }
 
     // Draw scores

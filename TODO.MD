@@ -1,6 +1,6 @@
 TODO:
-- include raylib.h in game.h only
-- Move all structs in game.h
++ include raylib.h in game.h only
++ Move all structs in game.h
 - Move raygui.h into game.h
 - Refactor main_loop to pass the pointers
 - Check all the raylib functions for duplicates (BeginDrawing etc)
@@ -9,5 +9,5 @@ TODO:
 - Refactor Popup window state logic using Enums
 - Refactor PopupWelcome members into struct
 - Refactor PopIPSettingsmembers into struct
-- Clean commented code
++ Clean commented code
 - Fix configure.sh script for WSL

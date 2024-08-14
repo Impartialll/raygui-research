@@ -1,8 +1,5 @@
-#include "game.h"
 #include "start_menu.h"
-#include "raylib.h"
 #include <stdbool.h>
-#include <stdio.h>
 
 WindowSettings window = {
     .title = "Ping pong",
@@ -46,8 +43,6 @@ int main()
     InitWindow(SCREEN_W, SCREEN_H, "Pong Online");
     SetMouseCursor(MOUSE_CURSOR_ARROW);
     SetTargetFPS(60);
-
-    // main_loop(player1, player2, rect, pd, state, ball, window);
 
     while (show_start_popup || show_ipset_popup)
     {
