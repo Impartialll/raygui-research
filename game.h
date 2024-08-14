@@ -54,6 +54,18 @@ typedef struct WindowSettings
   u32 fontSize;
 } WindowSettings;
 
+// IP Settings structure
+typedef struct
+{
+  unsigned char ip[4];
+  short port;
+} IpSettings;
+
+extern bool show_start_popup;
+extern bool show_ipset_popup;
+extern bool on_window_quit;
+extern bool singleplayer;
+
 Vector2 GetRandomBallSpeed(int minSpeed, int maxSpeed);
 void ResetBall(Ball *ball, int screenWidth, int screenHeight);
 
