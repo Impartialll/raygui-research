@@ -12,37 +12,32 @@ enum State {
 };
 
 // Types
-typedef struct Ball
-{
+typedef struct Ball {
   Vector2 position;
   Vector2 speed;
   float radius;
 } Ball;
 
-typedef struct Paddle
-{
+typedef struct Paddle {
   int paddleWidth;
   int paddleHeight;
   int leftPaddleX;
   int rightPaddleX;
 } Paddle;
 
-typedef struct Player
-{
+typedef struct Player {
   short position_y;
   int score;
 } Player;
 
-typedef struct WindowRect
-{
+typedef struct WindowRect {
   int rectWidth;
   int rectHeight;
   int rectX;
   int rectY;
 } WindowRect;
 
-typedef struct GameState
-{
+typedef struct GameState {
   int countdown;
   float countdownTimer;
   bool gamePaused;
@@ -50,8 +45,7 @@ typedef struct GameState
 
 typedef u_int32_t u32;
 
-typedef struct WindowSettings
-{
+typedef struct WindowSettings {
   char *title;
   char *footer;
   u32 screenWidth;
@@ -61,8 +55,7 @@ typedef struct WindowSettings
 } WindowSettings;
 
 // IP Settings structure
-typedef struct
-{
+typedef struct {
   unsigned char ip[4];
   short port;
 } IpSettings;
