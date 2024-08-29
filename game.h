@@ -2,15 +2,6 @@
 #include <string.h>
 #include <sys/types.h>
 
-#define SCREEN_W 640
-#define SCREEN_H 480
-
-enum State {
-  WORKING,
-  WINDOW_QUIT,
-  LOOP_CLOSED,
-};
-
 // Types
 typedef struct Ball {
   Vector2 position;
@@ -43,6 +34,20 @@ typedef struct GameState {
   bool gamePaused;
 } GameState;
 
+typedef struct PopSettings {
+  const char *h1_title;
+  const char *h2_title;
+  const char *ip_title;
+  const char *port_title;
+  const char *choose_mode;
+  int h1_title_size;
+  int h2_title_size;
+  int ip_port_size;
+  int h1_title_width;
+  int h2_title_width;
+  int ip_port_width;
+} PopSettings;
+
 typedef u_int32_t u32;
 
 typedef struct WindowSettings {
@@ -57,7 +62,7 @@ typedef struct WindowSettings {
 // IP Settings structure
 typedef struct {
   unsigned char ip[4];
-  short port;
+  unsigned short port;
 } IpSettings;
 
 extern bool show_start_popup;
@@ -67,6 +72,3 @@ extern bool singleplayer;
 
 Vector2 GetRandomBallSpeed(int minSpeed, int maxSpeed);
 void ResetBall(Ball *ball, int screenWidth, int screenHeight);
-
-int main_loop(Player *player1, Player *player2, WindowRect *rect, Paddle *pd,
-              GameState *state, Ball *ball, WindowSettings *window);
