@@ -45,11 +45,8 @@ int main() {
   SetMouseCursor(MOUSE_CURSOR_ARROW);
 
   // Setup and init first screen
-  // currentScreen = LOGO;
-  // InitLogoScreen();
-
-  currentScreen = GAMEPLAY;
-  InitGameplayScreen();
+  currentScreen = LOGO;
+  InitLogoScreen();
 
   SetTargetFPS(60);
 
